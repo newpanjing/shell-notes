@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>贝壳笔记</title>
+    <link rel="stylesheet" href="./lib/fontawesome-free-5.5.0-web/css/all.min.css">
+    <link rel="stylesheet" href="./static/css/style.css">
+    <link rel="stylesheet" href="./lib/editor.md-1.5.0/css/editormd.css"/>
+</head>
+<body>
+<div id="main" v-on:click="app.popup.show=false">
+    <div class="menu" v-bind:style="{height:(height)+'px',width:(menuWidth)+'px'}">
+        <div class="head-title" v-bind:style="{height:headTitleWidth+'px'}">
+            <div v-if="noDarwin" class="windows-toolbar">
+                <a href="javascript:;" class="min-btn close" v-on:click.stop="btnClose"><span
+                        class="fa fa-times"></span></a>
+                <a href="javascript:;" class="min-btn min" v-on:click.stop="btnMin"><span
+                        class="fa fa-minus"></span></a>
+                <a href="javascript:;" class="min-btn full" v-on:click.stop="btnFull"><span
+                        class="fa fa-sort"></span></a>
+            </div>
+
+        </div>
+        <div class="categorys" v-bind:style="{height:(height-headTitleWidth)+'px'}">
+            <div class="tips">分类列表</div>
+            <div v-for="item in categorys" :class="{active:item.active}" class="citem" v-bind:alias="item.alias"
+                 v-on:click="selectCategory(item)" @contextmenu.prevent="showCategoryMenu($event,item)">
+                <div>{{item.name}}<i v-if="item.loading" class="fas fa-spinner rotating"></i><i v-if="item.error"
+                                                                                                class="fa fa-info-circle error"
+                                                                                                :title="item.msg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="list" v-bind:style="{height:(height)+'px',width:(listWidth)+'px'}">
+        <div class="head-title" v-bind:style="{height:headTitleWidth+'px'}">
+            <div class="search-panel"><i class="fa fa-search"></i><input :placeholder="'搜索'+(selectedMenu.name||'全部')"
+                                                                         @keyup="searchHandler($event)"
+                                                                         v-model="searchInput"/></div>
+            <a href="javascript:;" class="icon-btn" title="新建" v-on:click="newNote()"><span class="fa fa-edit"></span></a>
+        </div>
+        <div class="scroll-panel" :style="{height:height-headTitleWidth+'px'}" @keyup="keyboardSwitch($event)">
+            <div v-for="item in articles" :class="{'article-item':true,active:item.active}"
+                 v-on:click="selectArticle(item)" v-on:contextmenu.prevent="showArticleMenu($event,item)"
+                 v-if="item.show">
+                <div class="info" :class="{full:!item.image}">
+                    <i v-if="item.loading" class="fas fa-spinner rotating"></i>
+                    <i v-if="item.error" class="fa fa-info-circle error" :title="item.msg"></i>
+                    <div class="title">{{item.title}}</div>
+                    <div class="date">{{item.createDate}}</div>
+                </div>
+                <div class="cover" v-if="item.image"><img :src="item.image"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" v-bind:style="{ height:(height)+'px',width:(width)+'px' }">
+
+        <div v-if="articleLoading" class="mask" v-bind:style="{height:height+'px',width:width+'px'}">
+            <div class="text">
+                <i class="fas fa-spinner rotating"></i>
+                <span>加载中...</span>
+            </div>
+        </div>
+
+        <div id="editor" v-bind:style="{width:width+'px',height:height+'px'}"></div>
+    </div>
+
+    <div v-if="popup.show" class="popup-menu" v-bind:style="{left:popup.x+'px',top:popup.y+'px'}">
+        <div v-for="item in popup.items" :class="item.split?'menu-split':'menu-item'"
+             v-on:click="item.handler()">
+            {{item.text}}
+        </div>
+    </div>
+
+    <div class="toast"></div>
+</div>
+<input type="file" style="display: none" id="file"/>
+<script src="./static/js/jquery.min.js"></script>
+<script type="text/javascript">
+    if (typeof (module) == 'object') {
+        window.jQuery = window.$ = module.exports;
+    }
+</script>
+<script type="text/javascript" src="./lib/vue/vue.min.js"></script>
+<script src="./lib/editor.md-1.5.0/editormd.min.js"></script>
+<script type="text/javascript" src="./static/js/app.js"></script>
+</body>
+</html>

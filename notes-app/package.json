@@ -1,0 +1,23 @@
+{
+  "name": "notes-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "electron .",
+    "packMac": "electron-packager . myblog --darwin --out ./dist/ --arch=x64 --app-version=0.0.1 --icon static/images/Code.icns",
+    "packWin": "electron-packager . myblog --win --out ./dist/ --arch=x64 --app-version=0.0.1 --icon static/images/logo.ico",
+    "packLinux": "electron-packager . myblog --linux --out ./dist/ --arch=x64 --app-version=0.0.1 --icon static/images/logo.ico"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.3.1"
+  },
+  "devDependencies": {
+    "electron": "^4.0.0",
+    "electron-packager": "^13.0.1",
+    "process-nextick-args": "^2.0.0",
+    "util-deprecate": "^1.0.2"
+  }
+}

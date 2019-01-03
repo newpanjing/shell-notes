@@ -1,0 +1,16 @@
+{
+  "name": "shell-notes",
+  "version": "1.0.0",
+  "description": "贝壳笔记",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "贝壳笔记",
+    "笔记",
+    "notes"
+  ],
+  "author": "panjing",
+  "license": "ISC"
+}
